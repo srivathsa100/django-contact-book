@@ -1,0 +1,147 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link rel="stylesheet" type="text/css" href="{% static 'contact.css' %}">
+    
+    <title>Contact Book</title>
+    <style>
+        body {
+            background-color: #c0ffe9;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 800px; /* Increased width to accommodate side-by-side layout */
+            width: 100%;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: row; /* Change to row for side-by-side layout */
+            align-items: flex-start;
+        }
+        .contact-photo-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 2rem; /* Space between photo and form */
+        }
+        .contact-photo img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .form-content {
+            flex-grow: 1; /* Allow form content to take remaining space */
+        }
+        .form-content h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+        .form-content form {
+            width: 100%;
+        }
+        .form-content label {
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: bold;
+        }
+        .form-content input {
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            width: 100%;
+        }
+        .form-content button {
+            padding: 0.75rem;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff8400;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%; /* Set button width to 100% of its container */
+            max-width: 200px; /* Optional: Limit the max width */
+            margin: 0 auto; /* Center the button */
+            display: block; /* Make the button a block element */
+        }
+        .form-content button:hover {
+            background-color: #e57300;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        @media (max-width: 768px) {
+            .form-container {
+                flex-direction: column; /* Stack photo and form on small screens */
+            }
+            .contact-photo-box {
+                margin-right: 0;
+                margin-bottom: 1.5rem; /* Space between photo and form in column layout */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="contact-photo-box">
+            <div class="contact-photo">
+                <img src="{{ Data.picture.url }}" alt="Contact Photo" style="width:300px;height:300px;">
+            </div>
+        </div>
+        <div class="form-content">
+            <form action="{% url 'formupdate' Data.id %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <th>Field Name</th>
+                        <th>Input</th>
+                    </tr>
+                    {% for field in form %}
+                    <tr>
+                        <td>{{ field.label_tag }}</td>
+                        <td>
+                            {% if field.name == "picture" %}
+                                <input type="file" name="{{ field.name }}" id="{{ field.id_for_label }}">
+                            {% else %}
+                                {{ field }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <button type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

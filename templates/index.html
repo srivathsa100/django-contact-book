@@ -1,0 +1,206 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Contact Book</title>
+    <style>
+        body {
+            background-color: #f5f5f5; /* Light grey background */
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #343a40; /* Dark text color */
+            transition: background-color 0.3s ease-in-out;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #ffffff; /* White background */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .form-container, .table-container {
+            margin-bottom: 30px;
+        }
+        .form-inline {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .form-inline label {
+            font-weight: bold;
+            color: #555; /* Darker text color */
+        }
+        .form-inline input[type=text], .form-inline input[type=email], .form-inline input[type=tel] {
+            padding: 12px;
+            font-size: 14px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            transition: border-color 0.3s ease;
+            width: 100%;
+        }
+        .form-inline input[type=text]:focus, .form-inline input[type=email]:focus, .form-inline input[type=tel]:focus {
+            border-color: #007bff; /* Blue border color on focus */
+            outline: none;
+        }
+        .form-inline button {
+            padding: 12px 20px;
+            background-color: #007bff; /* Blue button background */
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            align-self: flex-start;
+        }
+        .form-inline button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+        .search-form {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .search-form input[type=text] {
+            flex: 1;
+            padding: 12px;
+            font-size: 14px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            transition: border-color 0.3s ease;
+        }
+        .search-form input[type=text]:focus {
+            border-color: #28a745; /* Green border color on focus */
+            outline: none;
+        }
+        .search-form button {
+            padding: 12px 20px;
+            background-color: #28a745; /* Green button background */
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .search-form button:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .table thead {
+            background-color: #343a40; /* Dark background for table headers */
+            color: white;
+        }
+        .table th, .table td {
+            padding: 15px;
+            text-align: left;
+            border: 1px solid #dee2e6;
+        }
+        .table tbody tr:nth-child(even) {
+            background-color: #f8f9fa; /* Light grey background for even rows */
+        }
+        .table a {
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .btn-success {
+            background-color: #28a745; /* Green button background */
+            color: white;
+        }
+        .btn-success:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+        .btn-danger {
+            background-color: #dc3545; /* Red button background */
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: #c82333; /* Darker red on hover */
+        }
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #007bff; /* Blue header text */
+        }
+        h2 {
+            color: #343a40; /* Dark text color */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Contact Book</h1>
+        <div class="form-container">
+            <form action="{% url 'saveinfo' %}" method="post" enctype="multipart/form-data" class="form-inline">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Add</button>
+            </form>
+        </div>
+
+        <div class="form-container">
+            <form method="get" action="{% url 'search' %}" class="search-form">
+                <label for="query1">Search :</label>
+                <input type="text" id="query1" placeholder="Search by name,contact-number,email-id" name="query1">
+                <button type="submit">Submit <i class="fa fa-search"></i></button>
+            </form>
+        </div>
+
+        <div class="table-container">
+            <h2>Contact List</h2>
+            <table class="table" id="dataTable">
+                <thead>
+                    <tr>
+                        <th>Picture</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Contact Number</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for info in Data|dictsort:"FirstName" %}
+                        <tr>
+                            <td>
+                                {% if info.picture %}
+                                    <img src="{{ info.picture.url }}" alt="Picture" style="width:50px;height:50px;">
+                                {% else %}
+                                    <img src="{% static 'default.png' %}" alt="No Picture" style="width:50px;height:50px;">
+                                {% endif %}
+                            </td>
+                            <td>{{ info.FirstName }}</td>
+                            <td>{{ info.LastName }}</td>
+                            <td>{{ info.Email }}</td>
+                            <td>{{ info.ContactNumber }}</td>
+                            <td><a href="{% url 'edit' info.id %}" class="btn btn-success"><i class="fa fa-pencil"></i> Edit</a></td>
+                            <td><a href="{% url 'delete' info.id %}" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

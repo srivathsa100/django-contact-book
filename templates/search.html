@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Contact Book</title>
+    <style>
+        body {
+            background-color: #FFC0CB;
+            font-family: sans-serif;
+        }
+        .table-container {
+            padding: 0 10%;
+            margin: 40px auto 0;
+        }
+        .heading {
+            font-size: 40px;
+            text-align: center;
+            color: #f1f1f1;
+            margin-bottom: 40px;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table thead {
+            background-color: #0000FF;
+        }
+        .table thead tr th {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.35px;
+            color: #FFFFFF;
+            opacity: 1;
+            padding: 12px;
+            vertical-align: top;
+            border: 1px solid #000000;
+        }
+        .table tbody tr td {
+            font-size: 14px;
+            letter-spacing: 0.35px;
+            font-weight: normal;
+            background-color: #3cf44;
+            padding: 8px;
+            text-align: center;
+            border: 1px solid #000000;
+        }
+    </style>
+</head>
+<body>
+    <br><br><br><br><br><br>
+    <div class="table-container">
+        <table class="table" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Contact Number</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for info in Data %}
+                    <tr>
+                        <td data-label="First Name">{{ info.FirstName }}</td>
+                        <td data-label="Last Name">{{ info.LastName }}</td>
+                        <td data-label="Email">{{ info.Email }}</td>
+                        <td data-label="Contact Number">{{ info.ContactNumber }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

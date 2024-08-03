@@ -1,0 +1,51 @@
+/* Custom admin styles */
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #f4f4f9;
+}
+.header {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+.module {
+    background-color: #ffffff;
+    border: 1px solid #e1e1e8;
+    box-shadow: 0 2px 3px rgba(0,0,0,.1);
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 8px;
+}
+.app-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.app {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border: 1px solid #e1e1e8;
+    border-radius: 8px;
+    width: calc(33.333% - 20px);
+    box-shadow: 0 2px 3px rgba(0,0,0,.1);
+}
+.app h3 {
+    margin-top: 0;
+}
+.app ul {
+    padding-left: 20px;
+}
+.app ul li {
+    list-style: none;
+    margin-bottom: 10px;
+}
+.app ul li a {
+    text-decoration: none;
+    color: #007bff;
+}
+.app ul li a:hover {
+    text-decoration: underline;
+}
